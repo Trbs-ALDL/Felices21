@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¡Feliz 21, Luz!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg1: #ffd6e8;
+    --bg2: #fff1c9;
+    --ink: #4a1d3a;
+    --accent: #e0457b;
+    --gold: #d4a017;
+    --card: #ffffffcc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: hidden; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--ink);
+    background: linear-gradient(160deg, var(--bg1), var(--bg2));
+    background-attachment: fixed;
+    min-height: 100vh;
+    text-align: center;
+  }
+  canvas#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+
+  header { padding: 64px 16px 24px; }
+  .sub { font-weight: 300; letter-spacing: 3px; text-transform: uppercase; font-size: 14px; }
+  h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(48px, 13vw, 96px);
+    color: var(--accent);
+    line-height: 1.1;
+    margin: 12px 0;
+    animation: pop 1s ease-out;
+  }
+  .name { font-size: clamp(22px, 6vw, 34px); font-weight: 700; }
+  .age {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: clamp(90px, 30vw, 180px);
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+  .photo {
+    background: #fff;
+    padding: 8px 8px 28px;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(74, 29, 58, .18);
+    transition: transform .3s;
+  }
+  .photo:nth-child(1) { transform: rotate(-3deg); }
+  .photo:nth-child(2) { transform: rotate(2deg); }
+  .photo:nth-child(3) { transform: rotate(2.5deg); }
+  .photo:nth-child(4) { transform: rotate(-2deg); }
+  .photo:hover { transform: rotate(0) scale(1.04); z-index: 2; }
+  .photo img {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
+    border-radius: 3px; background: #f3e3ea;
+  }
+
+  .message {
+    max-width: 600px;
+    margin: 32px auto;
+    padding: 28px 22px;
+    background: var(--card);
+    border-radius: 20px;
+    margin-left: 16px; margin-right: 16px;
+    box-shadow: 0 6px 20px rgba(74, 29, 58, .1);
+    line-height: 1.7;
+    font-size: 17px;
+  }
+  @media (min-width: 640px) { .message { margin-left: auto; margin-right: auto; } }
+  .message .sign { font-family: 'Dancing Script', cursive; font-size: 28px; color: var(--accent); margin-top: 14px; }
+
+  button {
+    font: inherit; font-weight: 500;
+    background: var(--accent); color: #fff; border: 0;
+    padding: 14px 28px; border-radius: 999px; font-size: 17px;
+    cursor: pointer; box-shadow: 0 6px 16px rgba(224, 69, 123, .4);
+    margin: 8px 0 60px;
+  }
+  button:active { transform: scale(.96); }
+
+  @keyframes pop { 0% { transform: scale(.3); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<header>
+  <p class="sub">Para la mejor amiga del mundo</p>
+  <h1>¡Feliz cumpleaños!</h1>
+  <p class="name">Luz</p>
+  <div class="age">21</div>
+</header>
+
+<section class="gallery">
+  <div class="photo"><img src="foto1.jpg" alt="Foto 1"></div>
+  <div class="photo"><img src="foto2.jpg" alt="Foto 2"></div>
+  <div class="photo"><img src="foto3.jpg" alt="Foto 3"></div>
+  <div class="photo"><img src="foto4.jpg" alt="Foto 4" style="object-position: 30% center"></div>
+</section>
+
+<section class="message">
+  <p>Felices 21 a la persona que convierte cualquier plan en una aventura y cualquier día malo en uno bueno. Gracias por estar siempre, por las risas, los secretos y todos los momentos que nos quedan por vivir.</p>
+  <p>¡Te quiero muchísimo! 💖</p>
+  <p class="sign">Diana</p>
+</section>
+
+<button id="party">🎉 ¡Más confeti!</button>
+
+<script>
+  const c = document.getElementById('confetti');
+  const ctx = c.getContext('2d');
+  const colors = ['#e0457b', '#d4a017', '#ff9ec4', '#7fc8f8', '#b388eb', '#ffffff'];
+  let pieces = [];
+  function resize() { c.width = innerWidth; c.height = innerHeight; }
+  addEventListener('resize', resize); resize();
+
+  function burst(n) {
+    for (let i = 0; i < n; i++) {
+      pieces.push({
+        x: Math.random() * c.width, y: -20 - Math.random() * c.height * .5,
+        w: 6 + Math.random() * 6, h: 10 + Math.random() * 8,
+        vy: 2 + Math.random() * 3, vx: -1.5 + Math.random() * 3,
+        r: Math.random() * Math.PI, vr: -.1 + Math.random() * .2,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      });
+    }
+  }
+  function tick() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    pieces.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+      ctx.fillStyle = p.color; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    pieces = pieces.filter(p => p.y < c.height + 30);
+    requestAnimationFrame(tick);
+  }
+  burst(180); tick();
+  document.getElementById('party').onclick = () => burst(200);
+</script>
+</body>
+</html>
