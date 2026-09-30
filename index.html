@@ -69,6 +69,9 @@
   .photo:nth-child(2) { transform: rotate(2deg); }
   .photo:nth-child(3) { transform: rotate(2.5deg); }
   .photo:nth-child(4) { transform: rotate(-2deg); }
+  .photo.center { grid-column: 1 / -1; justify-self: center; width: calc(50% - 7px); }
+  .photo.wide { grid-column: 1 / -1; margin-top: 8px; }
+  .photo.wide img { aspect-ratio: 4/3; }
   .photo:hover { transform: rotate(0) scale(1.04); z-index: 2; }
   .photo img {
     width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
@@ -108,15 +111,15 @@
 <header>
   <p class="sub">Para la mejor amiga del mundo</p>
   <h1>¡Feliz cumpleaños!</h1>
-  <p class="name">Luzzz</p>
+  <p class="name">Luz</p>
   <div class="age">21</div>
 </header>
 
 <section class="gallery">
   <div class="photo"><img src="foto1.jpg" alt="Foto 1"></div>
   <div class="photo"><img src="foto2.jpg" alt="Foto 2"></div>
-  <div class="photo"><img src="foto3.jpg" alt="Foto 3"></div>
-  <div class="photo"><img src="foto4.jpg" alt="Foto 4" style="object-position: 30% center"></div>
+  <div class="photo center"><img src="foto3.jpg" alt="Foto 3"></div>
+  <div class="photo wide"><img src="foto4.jpg" alt="Foto 4"></div>
 </section>
 
 <section class="message">
